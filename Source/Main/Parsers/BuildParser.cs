@@ -41,7 +41,7 @@ public class BuildParser
         }
         return buildItems;
     }
-    string GetAttribute(IElement element, string qSelector, string attribure)
+    string? GetAttribute(IElement element, string qSelector, string attribure)
     {
         return element
         ?.QuerySelector(qSelector)
