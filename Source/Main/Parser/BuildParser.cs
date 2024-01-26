@@ -2,14 +2,14 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using dota2_heroes_webApi.Models;
 
-public class DotaBuffParser
+public class BuildParser
 {
     string baseUrl = "dotabuff.com";
     string itemSelector = ""; //"match-item-with-time match-item-with-time-bigicon         "
     string imgContainerSelector = ""; //"image-container image-container-item image-container-bigicon"
     string picSelector = ""; //"image-item image-bigicon"
     string purchaseTimeSelector = ""; //"time time-below"
-    public DotaBuffParser(string itemSel, string imgContSel, string picSel, string pTimeSel)
+    public BuildParser(string itemSel, string imgContSel, string picSel, string pTimeSel)
     {
         itemSelector = itemSel;
         imgContainerSelector = imgContSel;
@@ -18,18 +18,19 @@ public class DotaBuffParser
     }
     public List<Item> Parse(IHtmlDocument htmlDocument)
     {
-        List<Item> itemsToPurchase = new();
+        List<Item> buildItems = new();
 
         var items = htmlDocument.QuerySelectorAll(itemSelector);
 
         foreach(var t in items)
         {
-            var pic = t.QuerySelector(picSelector)?.GetAttribute("src");
-            var name = t.QuerySelector(picSelector)?.GetAttribute("oldtitle");
-            var link = t.QuerySelector(imgContainerSelector + " a")?.GetAttribute("href");
+            var name = GetAttribute(t, picSelector, "title");
+            var pic = GetAttribute(t, picSelector, "src");
+            var link = GetAttribute(t, imgContainerSelector + " a", "href");
             var pTime = t.QuerySelector(purchaseTimeSelector)?.InnerHtml;
-            var tooltipLink = baseUrl + t.QuerySelector(picSelector)?.GetAttribute("data-tooltip-url");
-            itemsToPurchase.Add(new Item()
+            var tooltipLink = GetAttribute(t, picSelector, "data-tooltip-url");
+
+            buildItems.Add(new Item()
             {
                 PictureLink = pic,
                 Link = link,
@@ -38,7 +39,7 @@ public class DotaBuffParser
                 TooltipLink = tooltipLink
             });
         }
-        return itemsToPurchase;
+        return buildItems;
     }
     string GetAttribute(IElement element, string qSelector, string attribure)
     {
