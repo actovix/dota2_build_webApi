@@ -1,15 +1,22 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using dota2_heroes_webApi.Models;
 
-public class BuildParser
+using dota2_heroes_webApi.Models;
+using dota2_heroes_webApi.Source.Main.Parsers;
+
+public class BuildItemsParser : IParser
 {
     string baseUrl = "dotabuff.com";
-    string itemSelector = ""; //"match-item-with-time match-item-with-time-bigicon         "
-    string imgContainerSelector = ""; //"image-container image-container-item image-container-bigicon"
-    string picSelector = ""; //"image-item image-bigicon"
-    string purchaseTimeSelector = ""; //"time time-below"
-    public BuildParser(string itemSel, string imgContSel, string picSel, string pTimeSel)
+    string itemSelector;           //"match-item-with-time match-item-with-time-bigicon         "
+    string imgContainerSelector;   //"image-container image-container-item image-container-bigicon"
+    string picSelector;            //"image-item image-bigicon"
+    string purchaseTimeSelector;   //"time time-below"
+    public BuildItemsParser(
+        string itemSel = ".match-item-with-time.match-item-with-time-bigicon",
+        string imgContSel = ".image-container.image-container-item.image-container-bigicon",
+        string picSel = ".image-item.image-bigicon",
+        string pTimeSel = ".time.time-below"
+        )
     {
         itemSelector = itemSel;
         imgContainerSelector = imgContSel;
@@ -18,17 +25,17 @@ public class BuildParser
     }
     public List<Item> Parse(IHtmlDocument htmlDocument)
     {
-        List<Item> buildItems = new();
+        List<Item> buildItems = [];
 
         var items = htmlDocument.QuerySelectorAll(itemSelector);
 
         foreach(var t in items)
         {
             var name = GetAttribute(t, picSelector, "title");
-            var pic = GetAttribute(t, picSelector, "src");
-            var link = GetAttribute(t, imgContainerSelector + " a", "href");
+            var pic = baseUrl + GetAttribute(t, picSelector, "src");
+            var link = baseUrl + GetAttribute(t, imgContainerSelector + " a", "href");
+            var tooltipLink = baseUrl + GetAttribute(t, picSelector, "data-tooltip-url");
             var pTime = t.QuerySelector(purchaseTimeSelector)?.InnerHtml;
-            var tooltipLink = GetAttribute(t, picSelector, "data-tooltip-url");
 
             buildItems.Add(new Item()
             {
@@ -48,4 +55,6 @@ public class BuildParser
         ?.GetAttribute(attribure)
         ?.Trim();
     }
+
+    
 }
