@@ -1,12 +1,11 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace dota2_heroes_webApi.Source.AutoCompletion;
 
 public class NamesOfHeroes
 {
     private string path = "";
-    public NamesOfHeroes(string path)
+    public NamesOfHeroes(string path = "HeroesList.json")
     {
         this.path = path;
     }

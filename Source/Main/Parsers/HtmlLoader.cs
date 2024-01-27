@@ -1,6 +1,4 @@
-
-
-namespace dota2_heroes_webApi.Source.Main.Parser;
+namespace dota2_heroes_webApi.Source.Main.Parsers;
 
 public class HtmlLoader
 {

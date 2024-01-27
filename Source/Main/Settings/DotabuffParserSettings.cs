@@ -1,4 +1,4 @@
-namespace dota2_heroes_webApi.Main.Parser.Settings;
+namespace dota2_heroes_webApi.Source.Main.Parsers.Settings;
 
 public class DotabuffParserSettings
 {

@@ -1,8 +1,8 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-
 using dota2_heroes_webApi.Models;
-using dota2_heroes_webApi.Source.Main.Parsers;
+
+namespace dota2_heroes_webApi.Source.Main.Parsers;
 
 public class BuildItemsParser : IParser
 {

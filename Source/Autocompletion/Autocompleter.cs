@@ -1,13 +1,14 @@
-
+using dota2_heroes_webApi.Source.AutoCompletion;
 
 namespace dota2_heroes_webApi.Source.AutoCompletion;
 
 public class NameSelector
 {
     List<string> names;
-    public NameSelector(List<string> names)
+    public NameSelector()
     {
-        this.names = names;
+        NamesOfHeroes namesOfHeroes = new();
+        this.names = namesOfHeroes.GetFromJsonAsync().Result;
     }
     List<string> GetSuggestions(string searchPhrase)
     {

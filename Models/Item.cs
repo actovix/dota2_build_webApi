@@ -1,4 +1,3 @@
-
 namespace dota2_heroes_webApi.Models;
 
 public class Item
