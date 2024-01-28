@@ -13,7 +13,7 @@ public class HtmlLoader
     }
     public async Task<string?> GetPageAsync(string heroName, HttpRequestMessage httpRequestMessage)
     {
-        if(Uri.TryCreate(url.Replace(mask, heroName), UriKind.Absolute, out Uri resUri))
+        if(!Uri.TryCreate(url.Replace(mask, heroName), UriKind.Absolute, out Uri resUri))
             throw new NotImplementedException(); 
         httpRequestMessage.RequestUri = resUri;
 
