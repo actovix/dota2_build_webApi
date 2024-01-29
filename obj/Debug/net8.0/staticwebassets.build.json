@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Y1EvsiKzULQxLB0pj4T3FtUYTZPwHHhmhYcrvMJMMDY=",
+  "Source": "dota2_heroes_webApi",
+  "BasePath": "_content/dota2_heroes_webApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

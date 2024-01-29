@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/dota2_heroes_webApi.props" />
+</Project>

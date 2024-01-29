@@ -16,7 +16,11 @@ public class ParserWorker
     {
         this.parser = parser;
         this.htmlLoader = new(
-            new HttpClient(), 
+            new HttpClient(
+                new HttpClientHandler(){
+                    AutomaticDecompression = System.Net.DecompressionMethods.Deflate | System.Net.DecompressionMethods.GZip
+                }
+            ), 
             "https://www.dotabuff.com/heroes/{heroName}", 
             "{heroName}");
     }
@@ -26,7 +30,7 @@ public class ParserWorker
         HttpRequestMessage httpRequestMessage = HttpRequestMessageBuilder.Create(HttpMethod.Get);
         string? source = await htmlLoader.GetPageAsync(heroName, httpRequestMessage);
 
-        await File.AppendAllTextAsync("log.txt", $"{DateTime.Now} recieved |{heroName}");
+        // await File.AppendAllTextAsync("log.txt", $"{DateTime.Now} recieved |{heroName}");
 
         HtmlParser htmlParser = new();
         var document = await htmlParser.ParseDocumentAsync(source);

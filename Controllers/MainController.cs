@@ -7,27 +7,28 @@ using Newtonsoft.Json;
 namespace dota2_heroes_webApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/")]
 public class MainController : ControllerBase
 {
-    private readonly ILogger<MainController> logger;
-    private readonly IConfiguration configuration;
-    private readonly ParserWorker parserWorker;
+    private readonly ILogger<MainController> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly ParserWorker _parserWorker;
     public MainController(ILogger<MainController> logger, IConfiguration configuration)
     {
-        this.configuration = configuration;
-        this.logger = logger;
+        _configuration = configuration;
+        _logger = logger;
 
-        parserWorker = new ParserWorker(new BuildItemsParser());
+        _parserWorker = new ParserWorker(new BuildItemsParser());
     }
 
+    [Route("/api/get")]
     [HttpGet]
-    public async Task<IActionResult> BuildSearch([FromBody] SearchString searchString)
+    public async Task<IActionResult> BuildSearch([FromQuery] string name)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        // if (!ModelState.IsValid)
+            // return BadRequest(ModelState);
 
-        Build build = await parserWorker.GetBuildAsync(searchString.SearchHero);
+        Build build = await _parserWorker.GetBuildAsync(name);
         return Ok(JsonConvert.SerializeObject(build));
     }
 }

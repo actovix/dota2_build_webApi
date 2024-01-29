@@ -16,6 +16,8 @@ public class HtmlLoader
         if(!Uri.TryCreate(url.Replace(mask, heroName), UriKind.Absolute, out Uri resUri))
             throw new NotImplementedException(); 
         httpRequestMessage.RequestUri = resUri;
+        
+        await File.AppendAllTextAsync("log.txt", resUri.ToString());
 
         HttpResponseMessage httpResponseMessage = await httpClient.SendAsync(httpRequestMessage);
         string responceString = await httpResponseMessage.Content.ReadAsStringAsync();
